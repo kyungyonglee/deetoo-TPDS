@@ -11,10 +11,10 @@
 \begin{document}
 \title{Deetoo: Scalable Unstructured Search \\
 	Built on a Structured Overlay}
-\author{ Taewoong~Choi~\IEEEmembership{Student Member,~IEEE,},
-         Kyoungyong Lee,
+\author{ Taewoong~Choi~\IEEEmembership{Student Member,~IEEE,}
+         Kyoungyong Lee~\IEEEmembership{Student Member,~IEEE,}
          Renato~Figueiredo~\IEEEmembership{Member,~IEEE,}
-         and~P.~Oscar~Boykin~\IEEEmembership{Member,~IEEE,}%
+         and~P.~Oscar~Boykin~\IEEEmembership{Member,~IEEE}%
 \thanks{}%
 }
 %\address[tw,po]{Department of Electrical \& Computer Engineering, 
@@ -66,7 +66,7 @@ in a distributed fashion. Nodes navigate the
 underlying network without knowledge of their global structure. 
 Currently, there are two common types of P2P search systems: flooding-based
 unstructured search systems and Distributed-Hash-Table (DHT)-based key-lookup systems. 
-DHT-based query systems typicall have $O(\log N)$ search cost and outperform 
+DHT-based query systems typically have $O(\log N)$ search cost and outperform 
 flooding-based systems which typically have cost $O(N)$.
 However, DHTs cannot support general searches because each object
 and search term must be mapped into the structure of network.
@@ -83,9 +83,9 @@ algorithm based upon one-dimension ring networks,
 such as Kleinberg's construction
 \cite{jk:Algorithmic} or Chord\cite{is:Chord}.
 The idea is to organize nodes in a ring in which 
-each node has a set of ``local" contacts and``long-range" 
+each node has a set of ``local" contacts and ``long-range" 
 contacts. 
-A the ``long-range" or shortcut contacts allow a reduced path discovery 
+The ``long-range" or shortcut contacts allow a reduced path discovery 
 with only local information by forming a local tree in the search space. 
 In addition to the search efficiency and low maintenance cost, 
 we can reuse existing P2P code designed for a ring topology for completely
@@ -101,7 +101,7 @@ The benefits of Deetoo search algorithm in this work is as follows:\\
 {\bf General query:} Since there is no need to map data objects or query 
 messages into structured network topology as in DHTs, Deetoo supports
 any kind of query, such as high-dimensional proximity searches and regular 
-expressions.\\
+expression matchings.\\
 {\bf Optimal caching and querying cost:} Deetoo is optimal search algorithm
 in terms of trade-off between caching and querying cost to achieve 
 constant query success probability.\\
@@ -321,7 +321,7 @@ in \cite{alph:powerlaw01}.
 Their work reduces search cost by the factor of the number of replicas, 
 but they do not consider replica placement. 
 Although random walk searches have an advantage over flooding
-in terms of search cost, they has some
+in terms of search cost, they have some
 scalability problems because almost all the queries tend to concentrate
 on the high-degree nodes. To address this problem, object
 replication using the square-root principle~\cite{CohenS02,LCKS02}
@@ -833,8 +833,8 @@ because new node's address selection is based on caching address.}
 \section{Analysis of Deetoo}\label{sec:analysis}
 Our analysis focuses on the probability of a query being successfully resolved
 , $P_{s}$, and the communication cost, $K$, 
-to show that the Deetoo protocol for unstructured P2P
-networks is efficient and scalable. We build the following assumptions to 
+to show that the Deetoo protocol for an unstructured query on a structured P2P networks
+is efficient and scalable. We build the following assumptions to 
 simplify our analytical modeling.
 First, we have a fixed size of the addresses. Thus
 address space, $B$, is fixed, which is $m$ $\times$
@@ -1116,7 +1116,7 @@ except this copying for a leaving or joining node.
 We assume that our algorithm checks whether an object 
 is already replicated from either neighbor or not. If a node identifies the 
 object, it discontinues the object transmission. This ensures that a node 
-prevents unnecessary message generation and a network saves bandwidth.
+prevents unnecessary message generation to save network bandwidths.
 Objects which already exist in a new node as well as out of 
 object's range are excluded from transmission.
 A new node examines each object's range whenever it is ready to be copied.
@@ -1155,7 +1155,7 @@ nodes in the range), respectively.
 %Since $L = \sqrt{\alpha N}d_{ave}$ and $B = d_{ave}N$, 
 
 \section{Simulation Results}\label{sec:simulation}
-In this section, we confirm the theoretical results discussed in the previous 
+In this section, we confirm the theoretical analysis discussed in the previous 
 section via simulations. 
 %tw: elaborate on the simulator
 We used Netmodeler\footnote{Netmodeler is a free software/open source
@@ -1184,12 +1184,12 @@ messages are broadcasted within randomly chosen ranges.
 \centering
 \includegraphics[angle=270,width=3.5in]{th_hitrate}
 \caption{Query hit rate is constant in network size $N$, and scales
-as $1-e^{-\alpha}$.In the legend, ``th" is theory, the other is simulated.} \label{fig:hitrate}
+as $1-e^{-\alpha}$. In the legend, ``th" means theorical analysis value, the other is simulation result.} \label{fig:hitrate}
 \end{figure}
 \begin{figure}[h]
 \centering
 \includegraphics[angle=270, width=3.5in]{mishit_logy}
-\caption{Query miss rate as a function of $\alpha$, this scales
+\caption{Query miss rate as a function of $\alpha$, this decreases
 as $\exp(-\alpha)$.} \label{fig:mishit}
 \end{figure}
 In our simulations the size of the address space is set to 32 bits which has $2^{32}$
@@ -1212,7 +1212,7 @@ Deetoo can perform the search with preferred success probability by adjusting
 broadcasting range with different $\alpha$.  
 In the figure, we also compare the simulation results with the theoretical results.
 We observe that the larger the $\alpha$ is, the higher the success probability is.
-In Figure \ref{fig:mishit}, query success probability declines exponentially as expected.
+In Figure \ref{fig:mishit}, query failure rate declines exponentially as $\alpha$ increases.
 % POB: we are deleting this because we don't understand it very well. 
 %Relatively high deviation is witnessed with large $\alpha$. Because we estimated success
 %probability by assuming $\frac{N}{B} \ll$ 1, it is expected to have
@@ -1224,7 +1224,7 @@ a trade-off between success probability and the communication cost.
 \begin{figure}
 \centering
 \includegraphics[angle=270,width=3.5in]{th_hops_loglog}
-\caption{Query cost scales $O(\sqrt N)$. ''th" is for the theoretical result, 
+\caption{Query cost scales $O(\sqrt N)$. ''th" is for the theoretical analysis, 
 and the other is the simulation result.} \label{fig:cost}
 \end{figure}
 
@@ -1260,20 +1260,19 @@ more than $\log N$, less than $\log^2 N$ when there is one shortcut.} \label{fig
 As described in Section \ref{sec:suc_prob}, the success probability remains constant 
 regardless of the number of nodes in Deetoo network. However, 
 the accuracy of network size estimation affects success probability.
-The simulation results show slight trend downward of success probability as network size grows. 
+The simulation results show slight downward trend of success probability as network size grows as shown in \ref{fig:hitrate}. 
 The reason for the slight decrease of success probability is that network 
 growth makes variance of size estimation increase. In a bigger network, there are higher 
 chances for a node to underestimate its network size relative to a small network. 
 Underestimation is much more harmful for success probability because underestimation 
 of the network size results in a narrower caching or querying range for bounded broadcasting. 
-With the estimated network size distribution, 
-we analyzed the impact of estimation on success probability numerically.  
-We define $w_c$ and $w_q$ as the width of the the columns for caching and
-querying respectively.  Since different nodes will initiate a cache and a
-matching query, we can consider what happens when the two nodes have
-difference estimates of the network size.  The node initiating the
-cache estimates the size of the network as $N_c$, the node estimating
-the query estimates the size of the network as $N_q$.
+We analyzed the impact of estimated network size distribution on success probability numerically.  
+We define $w_c$ and $w_q$ as the column width for caching and
+querying respectively.  Since every node can initiate a cache and a
+query, we consider a case when two nodes have
+different estimation of the network size. A node initiating a
+cache estimates the size of the network as $N_c$, a node triggering
+a query estimates the size of the network as $N_q$.
 
 \begin{eqnarray*}
 C \sqrt{B} &=& B\sqrt{\frac{\alpha}{N_c}} \\
@@ -1318,10 +1317,13 @@ simulation result of $3.9\times 10^{-5}$.
 
 The core mechanism behind the slightly falling hit-rate is that
 when nodes overestimate network size, they use a \emph{smaller} range
-to broadcast, reaching too few nodes, and hurting hit-rate.  Thus, as the
-network gets larger, and the variance on the network size estimation grows,
-we see a very slight downturn in hit-rate.  This could be improved by
-improving network size estimation.
+to broadcast, reaching too few nodes, and hurting hit-rate.
+For an accurate network size estimation, we can count a number of nodes
+in a P2P pool by using an algorithm proposed in~\cite{mapreduce-p2p}. This algorithm presents
+a parallel processing framework on a P2P network by using a bounded-broadcasting method.
+An arbitrary node in a pool initiates a \textit{node number counting task}
+in a purely distributed fashion. The result is kept using DHT 
+so that other nodes can grasp the exact number of nodes in a pool at a given time. 
 
 
 \subsection{Robustness}
@@ -1340,8 +1342,8 @@ originally joined.
 
 After all nodes joined network, 100 data objects were inserted.
 Queries were executed 100 times per data object. 
-Both the cache events and the query events occur 
-in a time distributed exponentially.
+Both the cache events and the query events are initiated  
+in an exponentially distributed fashion.
 For simplicity, we set the replication factor $\alpha=1$.
 
 \begin{figure}
@@ -1549,7 +1551,7 @@ Figure~\ref{fig:mapreduce_tree} shows a simple example of cache and query operat
 
 \fi
 
-\section{Experimental Environment}
+\section{Real-World Deployment}\label{sec:test}
 In this section, the performance of Deetoo is confirmed via experiments 
 in Planet-Lab.
 Deetoo nodes, each composed of two virtual Brunet nodes,
@@ -1579,8 +1581,8 @@ and messages were broadcasted within randomly chosen ranges.
 
 \subsection{Evaluation and Results} \label{plab:result}
 The evaluation is focused on (a) accuracy of network size estimation,
-(b) query success probability, (c) latency in terms of the number of the depth 
-in a tree generated by bounded broadcast, (d) communication cost.
+(b) query success probability, (c) latency in terms of the tree-depth
+generated by bounded broadcast, (d) communication cost.
 For each metric, moving averages 
 in the time span of 1000 trials are calculated.
 
@@ -1601,23 +1603,20 @@ addresses.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=2.5in]{plab_size}
-\caption{Estimated Network Size}
+\caption{Estimated Network Size in the PlanetLab experiment}
 \label{fig:e_net_size}
 \end{figure}
 
 \subsubsection{Query Success Probability}
-The query success probability was measured. The first figure in 
-Figure \ref{fig:plab_hit}
-shows the query success probability as a function of measured time with
-1.0 of replication factor and the other figure in Figure \ref{fig:plab_hit} 
-shows the
-probability when a replication factor is set to 3.0.
+The query success probability is shown in Figure \ref{fig:plab_hit}.
+The upper lines show the query success probability as a function of measured time with
+3.0 of replication factor and the lower lines in Figure \ref{fig:plab_hit} 
+show the probability when a replication factor is set to 1.0.
 The variation is observed in each experiment. The query success 
 probability is only depends on the replication factor and the 
-network size. 
-Considering a replication factor is deterministic as a user can specify it 
-according to a user`s desired performance, 
-the network size is the most and the only influential factor 
+estimated network size. 
+Considering a replication factor is deterministic according to user`s desired performance, 
+the estimated network size is the most and the only influential factor 
 for the query success probability. 
 As a nature of distributed network with no global information, 
 Each result was compared to the theoretical result that is approximately
@@ -1639,21 +1638,21 @@ success probability.
 \end{figure}
 
 \subsubsection{Latency}
-The latency in the test is measured by counting tree depth.
-In the calculation of latency, the number of out-of-range links before finding a node 
+The latency in the test is measured by counting a tree depth.
+While calculating latency, the number of out-of-range links before finding a node 
 in the range by greedy routing is added to the tree depth.
 We assumed that per-hop latency between any two nodes is all the same.
 According to \cite{to:deetoo10}, the latency of bounded braodcast in 
 a given network size, $n$, is bounded by $O(\frac{1}{k}\log^2{n})$, where $k$ is 
 the number of shortcut links. In Brunet, each node maintains approximately
-$\log{n}$ shortcut connections. Thus, the tree depth is $O(\log^{n})$.
+$\log{n}$ shortcut connections. Thus, the tree depth is $O(\log{n})$.
 The Figure \ref{fig:latency} compares theoretical results
 with measured latency
 when $\alpha$ is 1.0 and 3.0, respectively. The experimental results 
 shows shorter latency because the number of shortcut connection 
 is more in Brunet than that of calculation.
-Considering that MapReduce is executed in parallel in a tree,
-a shorter latency produces a more desirable responsiveness.
+Considering that caching and querying are executed in parallel in a tree,
+a shorter tree-depth produces a more desirable responsiveness.
 The actual latency($L$) for the querying is measured. The latency between 
 a pair of nodes is not measured but assuming that the per-hop latency
 ($L_{hop}$) between two nodes is constant, 
@@ -1701,34 +1700,42 @@ approximately 8 $KB$ of total data is transferred for a single cache.
 Figure \ref{fig:plab_cost} illustrates the total bytes transferred
 in the network for each query. 
 
+
 \subsubsection{Replication vs. Success Probability}
 There exists a trade-off between the number of replicas per object and query success
 probability.
-The test counted the number of replicas per each unique objects after 
-stabilization. For the query success probability, we counted 
-the number of successfully resolved query per each object and averaged.
+The test counted the number of replicas per each unique object after 
+stabilization. In order to calculate the query success probability, we counted 
+the number of successfully resolved query per each object and averaged the probability.
 The Figure \ref{fig:plab_cost_hit} shows the trade-off
-between replication and query success probability with 1.0 of $\alpha$ and 3.0, 
-respectively. 
-We observed that increment of query success probability as the number 
-of replica increased until query success probability reached 100/%.
-\begin{center}
-\begin{figure*}[ht]
-\centering
-\begin{tabular}{c c}
-\begin{minipage}[t]{3in}
+between replication and query success probability with $\alpha$ of 1.0. 
+We observed that query success probability increases as the number 
+of replica increased until query success probability reached 100\%.
+
+\begin{figure}[ht]
 \centering
 \includegraphics[width=2.5in]{c_cost_vs_hit1.eps}
-\end{minipage}
-& \begin{minipage}[t]{3in}
-\centering
-\includegraphics[width=2.5in]{c_cost_vs_hit3.eps}
-\end{minipage}\\
-\end{tabular}
-\caption{Communication Cost for Caching vs. Query Success Probability}
-\label{fig:plab_cost_hit}
-\end{figure*}
-\end{center}
+\caption{As caching cost increases, the query hit rate increases.} \label{fig:latency}
+\end{figure}
+
+
+%\begin{center}
+%\begin{figure*}[ht]
+%\centering
+%\begin{tabular}{c c}
+%\begin{minipage}[t]{3in}
+%\centering
+%\includegraphics[width=2.5in]{c_cost_vs_hit1.eps}
+%\end{minipage}
+%& \begin{minipage}[t]{3in}
+%\centering
+%\includegraphics[width=2.5in]{c_cost_vs_hit3.eps}
+%\end{minipage}\\
+%\end{tabular}
+%\caption{Communication Cost for Caching vs. Query Success Probability}
+%\label{fig:plab_cost_hit}
+%\end{figure*}
+%\end{center}
 
 
 
@@ -1751,8 +1758,7 @@ We measure the number of objects per node from 368 Planet-Lab nodes ($N$).
 %was set to 1.0 and then set to 3.0 at the other test.
 500 objects ($j$) were cached over the network with a replication 
 factor 1.
-As seen in Figures \ref{fig:loadbal_hist} and \ref{fig:loadbal_pn}, 
-the load is evenly distributed. 
+As seen in Figure \ref{fig:loadbal_hist},the load is evenly distributed. 
 The average number of objects in a node is 24.5 and the standard deviation 
 is 5.46.
 The theoretical expectation for the number of replicated objects per node
@@ -1761,7 +1767,8 @@ The reason for the mismatch between the measured result and the theoretical
 result came from the over estimation of the network size. 
 The average of estimated size was 395.6, but the actual size was 384.
 The over-estimation resulted in the smaller number of replicated objects.
-\begin{figure}[ht]
+\begin{figure}[h]
+\centering
 \includegraphics[width=2.5in]{load_bal_hist.eps}
 \caption{Load distribution: originally 220 objects were cached over the entire network. } \label{fig:loadbal_hist}
 \end{figure}
